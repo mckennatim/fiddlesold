@@ -1,0 +1,59 @@
+  <meta name="description" content="Promises between service and controller in AngularJS" />
+  <title>ng-online</title>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">  
+  <link rel="stylesheet" href="style.css"> 
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.14/angular.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
+  <script src="script.js"></script>
+<body ng-app="App">
+<div ng-controller="AppController">    
+    <span class="glyphicon glyphicon-signal" ng-show="online"></span>
+    <span class="glyphicon glyphicon-ban-circle" ng-show="!online"></span>
+ {{dog}}<br>
+ online: {{online}}<br>
+ <input type="text" name="" ng-model="dog" placeholder=""><br>
+ <input type="button" name="" value="get promise" ng-click="getPromise()">
+ <input type="button" name="" value="{{running}}" ng-click="toggle()">
+ <br>
+
+<div ng-include="templ" ></div>
+
+
+<h2 id="promises-between-service-and-controller-in-angularjs">Promises between service and controller in AngularJS</h2>
+<p>Calls to $http belong in a service. SinceAJAX calls are asynchronous you have to return a promise that will be deferred until the callback. You can setup the promise in the service by including $q and then act on it when it returns in the controller.</p>
+<h3 id="using-q-in-the-service">using $q in the service</h3>
+<pre><code>    ckIfOnlineQ: function(){
+        var deferred = $q.defer();
+        var result;
+        if(!$rootScope.online){//avoid another http call
+            var status = $rootScope.status-1
+            var data = &#39;is offline&#39;
+            result={data:data, status:status}
+            console.log(result)
+            deferred.resolve(result)
+        }else{
+            $http.get(httpLoc).
+                success(function(data, status, headers, config) {
+                    result={data:data, status:status}
+                    deferred.resolve(result)
+                    //success also includes status = 0, which I&#39;d call a failure                        
+                }).
+                error(function(data, status, headers, config) {
+                    //not sure how to trigger the error
+                    deferred.reject({data:data, status:status, error:&#39;mystery error&#39;})
+                });                
+        }
+        return deferred.promise
+    }  </code></pre>
+<h3 id="short-circuit-and-return-promise-quick">short circuit and return promise quick</h3>
+<p>This example includes an interceptor that sets $rootScope.online&amp;status on any AJAX call to http. Rather than making another call if we already know we are offline, we can check if $rootScope.online = true and quickly resolve and return the promise.</p>
+<h3 id="then-act-on-the-promise-deferred">then act on the promise deferred</h3>
+<pre><code>$scope.getPromise =function(){
+    Factory.ckIfOnlineQ().then(function(result){
+        $scope.dog=result.status;
+    })
+}</code></pre>
+<p>The rest of this code takes the approach of intercepting any http request and setting $rootScope online</p>
+
+ <a href="http://johnmacfarlane.net/pandoc/try/" title="">http://johnmacfarlane.net/pandoc/try/</a>

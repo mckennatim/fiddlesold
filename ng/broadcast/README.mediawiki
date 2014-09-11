@@ -1,0 +1,85 @@
+==Checking online status in AngularJS app==
+Often apps can do useful work while offline. While online and connected to the server additional functionality is enabled. It is helpful to know if a device is connected to the internet and if its server is available.
+
+You might as well check online status every time your app makes an http request. If you wanted to periodically update your online status you could make a simple http request and intercept its response to set the state of a $rootscope variable that could then be watched by any controllers that needed to. 
+
+Intercepting http calls, setting some rootScope variables and watching them from a controller, and polling the server periodically to update everything are the steps described below.
+
+===Intercepting http calls===
+Interceptors are set up in the app.config and coded in a factory.
+<syntaxhighlight lang="javascript">
+  var app = angular.module("App", []);
+
+  app.config(function ($httpProvider) {
+      $httpProvider.interceptors.push('Interceptor');
+  });
+</syntaxhighlight>
+
+Inject $rootScope and set variables:
+
+<syntaxhighlight lang="javascript">
+  app.factory('Interceptor', function($rootScope){
+          var Interceptor ={
+              responseError: function(response){
+                  $rootScope.status = response.status;
+                  $rootScope.online = false;
+                  return response;
+              },
+              response: function(response){
+                  $rootScope.status = response.status;
+                  $rootScope.online = true;
+                  return response;
+              }
+          };
+          return Interceptor;
+  })
+</syntaxhighlight>
+
+btw: $window.navigator.onLine would tell you if your device is online but not if the server is.
+
+===watching $rootScope variables===
+You can watch rootscape variables for your controller and use it to modify something in the contorller's scope.
+
+<syntaxhighlight lang="javascript">
+    $rootScope.$watch('online', function(newValue, oldValue){
+        if (newValue !== oldValue) {
+            $scope.online=$rootScope.online;
+        }
+    });
+</syntaxhighlight>
+
+===interval polling of the server===
+The fiddle has a button that toggles the $interval timer either on or off. When on it runs ckIfOnline every 5 seconds.
+
+<syntaxhighlight lang="javascript">
+    $scope.toggle=function(){
+        if (running) {
+            $interval.cancel(running);
+            running=null;
+            $scope.running='not polling server';
+        }else{
+            $scope.running='polling server';
+            running = $interval(function(){
+            console.log('running update')
+            Factory.ckIfOnline();
+        },5000); 
+        }
+    }
+</syntaxhighlight>
+
+===check ifOnline===
+Any http call will tell you if your device is online or not. A simple call to your rest server will tell you if you are online and if your server is online. A factory is a good place for this function.
+
+<syntaxhighlight lang="javascript">
+  app.factory('Factory', function($q, $http, $rootScope){
+      var httpLoc = 'http://parleyvale.com:3000/api/'; 
+      return{
+          ckIfOnline: function(){
+              $http.get(httpLoc);                      
+          },  
+      }
+  })
+</syntaxhighlight>
+You don't need any callbacks or promises for the http calls or the interceptor. Whenever they do come back they will set the $rootScope variable and whenever they get set the local watchers will react.
+
+tags: interceptors, polling, $interval, $watch, $rootScope, $httpProvider

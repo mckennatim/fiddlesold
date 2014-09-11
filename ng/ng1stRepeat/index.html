@@ -1,0 +1,14 @@
+  <meta name="description" content="Angular Find 1st Dup" />
+  <title>ng-blank</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js"></script>
+  <script src="main.js"></script>
+<body ng-app="DuplicateApp">
+<div ng-controller="DuplicateController">    
+First repeated number of {{numbers}} is  {{firstRepNum}} 
+<ul id="theList">
+    <li ng-repeat="number in numbers track by $index"
+    	ng-controller="ItemCtrl">
+    {{number}}  {{yo}}</li>
+</ul>
+</div>
+</body>

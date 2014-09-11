@@ -1,0 +1,36 @@
+  <!doctype html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0 ">
+  <meta name="description" content="Detecting window onfocus and blur in angularJS" />
+  <title>ng-focus</title>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">  
+  <link rel="stylesheet" href="style.css"> 
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.14/angular.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
+  <script src="script.js"></script>
+</head>
+<body ng-app="App">
+<div ng-controller="AppController">    
+<h2 id="detecting-browser-window-focus">Detecting browser window focus in AngularJS</h2>
+<button type="button" class="btn btn-danger btn-lg">{{dog}}</button>
+<p>When using hhtml5 built-in window.onfocus and window.blur you need to inject $window in the controller and after you update the $scope you need to $scope.apply() so angular knows about it. <a href="http://plnkr.co/edit/jyUJ6y64cBQDPTMXMWVb?p=preview">plnkr</a></p>
+<pre><code>var app = angular.module(&quot;App&quot;, []);
+
+app.controller(&quot;AppController&quot;, function($scope, $window){
+    $scope.dog=&quot;fred&quot;;
+    var onFocus = function(){
+        $scope.dog = &#39;onfocus&#39;;
+        $scope.$apply();
+    }
+    var onBlur = function(){
+        $scope.dog = &#39;onblur&#39;;
+        $scope.$apply();
+    }
+    $window.onfocus = onFocus;
+    $window.onblur = onBlur;   
+});</code></pre>
+</div>
+</body>

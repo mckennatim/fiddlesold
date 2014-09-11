@@ -1,0 +1,93 @@
+<!doctype html>
+<head>
+  <meta name="description" content="Setting default select value in AngularJS" />
+  <title>ng-select</title>  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0 ">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css"> 
+  <link rel="stylesheet" href="style.css"> 
+  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.14/angular.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
+  <script src="script.js"></script>
+</head>
+<body ng-app="App">
+  <div ng-controller="AppController">    
+    This doesn`t fill in a default value: <br>
+    <select ng-model="defStore" ng-options="store.name for store in stores" ng-change="defOrder(defStore)"></select><button onclick="reload()">Reload page</button><br>
+<br>
+
+<h2 id="setting-default-select-value-in-angularjs">Setting default select value in AngularJS</h2>
+<h3 id="what-doesnt-work">what doesn`t work</h3>
+<p>It would seem easy to fill in the default value of a select list.</p>
+<pre><code>$scope.stores=  [
+        {&quot;id&quot; : &quot;s_Bereti&quot;,&quot;name&quot; : &quot;Stop&amp;Shop&quot;},
+        {&quot;id&quot; : &quot;s_Bereto&quot;,&quot;name&quot; : &quot;WholeFoods&quot;},
+        {&quot;id&quot; : &quot;s_Bereta&quot;,&quot;name&quot; : &quot;TraderJoes&quot;}
+]
+
+$scope.defStore = {&quot;id&quot; : &quot;s_Bereta&quot;,&quot;name&quot; : &quot;TraderJoes&quot;};
+$scope.defOrder = function(store){
+    console.log(store)
+}</code></pre>
+<p>You would expect the list to come up with ‘TraderJoes’ as default. but it doesn`t even though the model gets updated just fine. Every time the page loads the defualt is blank.</p>
+<p><a href="http://johnmacfarlane.net/pandoc/try/" title="">http://johnmacfarlane.net/pandoc/try/</a></p>
+
+<br>
+    This does fill in a default value: <br>
+    <select ng-model="currentStore" ng-options="store.name for store in stores" ng-change="updateOrder(currentStore)"></select><br>
+ 
+
+
+<h3 id="what-works">what works</h3>
+<p>Had you chosen the default by picking a member of the stores list you would have been fine.</p>
+<pre><code>This does fill in a default value: &lt;br&gt;
+&lt;select ng-model=&quot;currentStore&quot; ng-options=&quot;store.name for store in stores&quot; ng-change=&quot;updateOrder(currentStore)&quot;&gt;&lt;/select&gt;&lt;br&gt;
+
+$scope.currentStore = $scope.stores[2];
+console.log($scope.currentStore)</code></pre>
+<p>I wish I knew why this is different. Their console.logs look the same. The object in the second example must keep where it came from???</p>
+<h4 id="finding-the-index-of-an-object-on-an-array-by-one-of-its-property-values">finding the index of an object on an array by one of its property values</h4>
+<p>I want some service to keep track of my default value objects and then be able to load those defaults into my controllers and views. Another service might keep a list of stores updated from a database. I don’t want to carry around a bunch of indexes because who knows whats been pushed or popped or reordered.</p>
+<p>So the controller is going to have to deal.</p>
+<h5 id="step1-turn-an-array-of-objects-into-and-array-of-properties">step1: turn an array of objects into and array of properties</h5>
+<pre><code>$scope.stores=  [
+        {&quot;id&quot; : &quot;s_Bereti&quot;,&quot;name&quot; : &quot;Stop&amp;Shop&quot;},
+        {&quot;id&quot; : &quot;s_Bereto&quot;,&quot;name&quot; : &quot;WholeFoods&quot;},
+        {&quot;id&quot; : &quot;s_Bereta&quot;,&quot;name&quot; : &quot;TraderJoes&quot;}
+]
+
+console.log($scope.stores.map(function(e) { return e.name; }));//returns
+[&quot;Stop&amp;Shop&quot;, &quot;WholeFoods&quot;, &quot;TraderJoes&quot;] </code></pre>
+<h5 id="step2-use-indexof-sorry-ie">step2: use indexOf (sorry IE)</h5>
+<p>The index of the property array is the same as the index of the object in the array</p>
+<pre><code>$scope.stores.map(function(e) { return e.name; }).indexOf($scope.currentStore.name)];</code></pre>
+<p>and if you set the default value of the select list from that then everything works</p>
+<h4 id="two-functions">two functions</h4>
+<h4>find the index of the first object contained in an array of objects by the value of a property</h4>
+<p>The first is to find the index of the first object contained in an array of objects by the value of a property.</p>
+<pre><code>var idxOfObjByPropVal = function(objArr, property, value){
+    return objArr.map(function(e){return e[property]}).indexOf(value)
+} </code></pre>
+<h4>set a default value for a select box</h4>
+<p>The second function sets a default value for a select box. It then continues to work as the model.</p>
+<pre><code>var defSelect = function(objArr, obj, property){
+    return objArr[idxOfObjByPropVal(objArr, property, obj[property] )]
+}</code></pre>
+<p>You would use it like this:</p>
+<pre><code>$scope.theStore= defSelect($scope.stores, $scope.theStore, &#39;name&#39;);</code></pre>
+
+<br>
+    This does fill in a default value: <br>
+    <select ng-model="theStore" ng-options="store.name for store in stores" ng-change="updateOrder(theStore)"></select><br>
+
+
+<p><a href="http://johnmacfarlane.net/pandoc/try/" title="">http://johnmacfarlane.net/pandoc/try/</a></p>
+
+  </div>
+</body>

@@ -1,0 +1,42 @@
+  <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Angular Find 1st Dup" />
+    <title>ng-mobl-list</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">  
+    <link rel="stylesheet" href="main.css">  
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.14/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.14/angular-route.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
+    <script src="../bower_components/angular-hammer/angular-hammer.js"></script>
+    <script src="main.js"></script>
+  </head>
+<body ng-app="App">
+<div ng-controller="AppController" class="col1">  
+<span class="list-head">{{shops}} </span><span>({{cnt}})</span> <span>{{mkt}}</span>
+<span class="btn-group btn-group-xs">
+  <button class="btn btn-default" ng-click="showLoc=!showLoc">loc</button>  
+  <button class="btn btn-default" ng-click="showAmt=!showAmt">amt</button>  
+  <button class="btn btn-default" ng-click="showTags=!showTags">tags</button>
+</span>  
+
+<ul id="theList" class="list-group">
+    <a ng-repeat="item in list.items track by $index"
+    	ng-controller="ItemCtrl" class=list-group-item>
+      <span class="item-product">{{item.product}}</span>
+      <span class = "item-amt" ng-hide="showAmt">{{item.amt.qty}}-{{item.amt.unit}}</span>
+      <span ng-show="showAmt" ></span>
+      <span ng-hide="showTags" class="item-tags" ng-repeat="tag in item.tags">{{tag}} </span>
+      <span ng-show="showTags" ></span>
+      <i ng-click="remove(got)" class="pull-right glyphicon glyphicon-remove " ></i>  
+    </a>
+</ul>
+</div>
+</body>

@@ -1,0 +1,38 @@
+.col1 {
+	background-color: #C5B8FF;
+}
+.list-group {
+	padding-right:12px;
+	padding-left: 12px;
+	
+}
+.list-group-item {
+	background-color: #FFE79F;
+}
+.item-product{
+	padding-right: 12px;
+	font-size: 16px;
+	font-family: "Comic Sans MS", "Trebuchet MS", Helvetica, sans-serif;
+}
+.item-tags{
+	/*ont-family: "Brush Script MT", cursive;*//*
+	font-family: Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans serif;*/
+	font-family: "Arial Narrow", Arial, sans-serif;
+	font-size: 11px;
+}
+
+.item-amt{
+	/*font-family: "Brush Script MT", cursive;*/
+	padding-right: 10px;
+  font-family: Papyrus, fantasy;  
+}
+
+@media all and (min-width: 42em){
+  .col1 { float: left; width:50%; }
+}
+@media all and (min-width: 70em){
+  .col1 { float: left; width:34%; }
+}
+/*font-family: Tahoma, Verdana, Segoe, sans-serif;*/
+/*font-family: "Arial Narrow", Arial, sans-serif;*/
+/*font-family: "Brush Script MT", cursive;*/

@@ -1,0 +1,54 @@
+<!doctype html>
+<head>
+  <meta name="description" content="blank description" />
+  <title>ng-blank</title>  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0 ">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css"> 
+  <link rel="stylesheet" href="style.css"> 
+  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.14/angular.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
+  <script src="script.js"></script>
+</head>
+<body ng-app="App">
+<div ng-controller="AppController">    
+<span>({{cnt}})</span><button type="button" ng-click="reset()">reset</button> 
+<ul class="list group" >
+  <li ng-repeat="item in items | filter:{done:false} track by $index" class="list-group-item need"
+  ng-class="{editing: item==editedItem}" >
+  <div class="view" >
+    <input type="checkbox" ng-model="item.done" ng-click="item.amt.qty=''">
+    <span class="done-{{item.done}} product" ng-click="editItem(item)" >{{item.product}}</span> 
+    <span ng-show="item.amt.qty > 0" >
+      <span class="amt" >{{item.amt.qty}}  </span>
+      <span class="amt" >{{item.amt.unit}}</span>
+    </span>         
+    <span ng-show="showLoc" class="loc" >{{item.loc}}</span>          
+    <span ng-show="showTags" class="tags" ng-repeat="tag in item.tags">{{tag}} </span>      
+    <i ng-click="remove(item)" class="pull-right delx glyphicon glyphicon-remove " ></i>  
+  </div>
+</li>
+</ul>           
+
+<form class="list-add" ng-submit="rubmit()">
+  <input class="add-item" ng-model="query" placeholder='search old lists'>  
+  <input class="submit" type="submit" id="submit2" value="Add" />
+</form>
+<span class="got-list-head">from old lists</span> 
+<ul class="list group" >
+  <li ng-repeat="got in items | filter:{done:true} | filter:query track by $id($index)" class="list-group-item need">
+    <input class="ck-box" type="checkbox" ng-model="got.done">
+    <span class="done-{{got.done}} product">{{got.product}}</span>
+    <i ng-click="remove(got)" class="pull-right glyphicon glyphicon-remove " ></i>  
+    <!-- <i class="glyphicon glyphicon-chevron-down" ></i>   -->
+  </li>
+</ul>             
+</div>
+</div>
+</body>
