@@ -17,29 +17,38 @@
   <script src="script.js"></script>
 </head>
 <body ng-app="App">
-  <div ng-controller="FirstCtrl"> 
+  <div ng-controller="FirstCtrl" class="col1"> 
+    <p>1st controller - List shops and users</p>
     <ul class="list-group">
-      <li class="list-group-item" ng-repeat="list in users.al[users.al.activeUser].lists  track by $index">{{list.shops}}</li>
+      <li class="list-group-item" ng-repeat="list in users.al[users.al.activeUser].lists  track by $index" ng-click="makeDefListInfo(list)">{{list.shops}}</li>
    </ul>   
-  <button ng-click=getAl()>push</button><input type="text" name="" value="" > 
     <ul class="list-group">
       <li class="list-group-item" ng-repeat="name in users.al.userList  track by $index" ng-click="makeActive(name)">{{name}}</li>
-   </ul>   
+   </ul> 
+   <pre><code>{{users.al}}</code></pre>  
   </div>  
 
-  <div ng-controller="SecondCtrl"> 
+  <div ng-controller="SecondCtrl" class="col1"> 
+    <p>2nd controller - change active user</p>
       <span>
         <select ng-model="active" ng-options="name as name for name in users.al.userList" ng-click="makeActive(active)"></select></span>
        <span>    
     <ul class="list-group">
-      <li class="list-group-item" ng-repeat="list in users.al[users.al.activeUser].lists  track by $index">{{list.shops}}</li>
+      <li class="list-group-item" ng-repeat="list in users.al[users.al.activeUser].lists  track by $index" ng-click="makeDefListInfo(list)">{{list.shops}}</li>
    </ul>       
   </div>
 
-  <div ng-controller="ThirdCtrl">
-    <button ng-click=reset()>reset</button> <br>
+  <div ng-controller="ThirdCtrl" class="col1">
+  <p>3rd controller - trying to det default to change automatically</p>
+  {{users.al[users.al.activeUser].lists[0]}}<br>
+    <button ng-click=reset()>reset local storage</button> <br>
+    <button ng-click=setPrettyUsers()>setPrettyUsers</button> <br>
       <span>
-        <select ng-model="defListInfo" ng-options="shop.shops for shop in users.al[users.al.activeUser].lists" ng-click="makeDefLid(defLid)"></select></span>
-       <span>       
+        <select ng-model="defListInfo"  ng-options="shop.shops for shop in users.al[users.al.activeUser].lists" ng-click="makeDefListInfo(defListInfo)"></select></span>
+       <span>  
+    <ul class="list-group">
+      <li class="list-group-item" ng-repeat="list in users.al[users.al.activeUser].lists  track by $index" ng-click="makeDefListInfo(list)">{{list.shops}}</li>
+   </ul>   
+   users.al[users.al.activeUser].lists[users.al[users.al.activeUser].defaultList]        
   </div>
 </body>

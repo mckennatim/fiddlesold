@@ -5,3 +5,10 @@ div {
   padding:16px;
   color:blue;
 }
+
+@media all and (min-width: 42em){
+  .col1 { float: left; width:50%; }
+}
+@media all and (min-width: 70em){
+  .col1 { float: left; width:34%; }
+}
