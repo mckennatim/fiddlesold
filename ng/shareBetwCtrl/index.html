@@ -19,17 +19,23 @@
 <body ng-app="App">
   <div ng-controller="FirstCtrl" class="col1"> 
     <p>1st controller - List shops and users</p>
+    {{users.al.activeUser}}, {{lists.lal.activeList}}
     <ul class="list-group">
       <li class="list-group-item" ng-repeat="list in users.al[users.al.activeUser].lists  track by $index" ng-click="makeDefListInfo(list)">{{list.shops}}</li>
    </ul>   
     <ul class="list-group">
       <li class="list-group-item" ng-repeat="name in users.al.userList  track by $index" ng-click="makeActive(name)">{{name}}</li>
-   </ul> 
+   </ul>
+    <ul class="list-group">
+      <li class="list-group-item" ng-repeat="item in lists.lal[lists.lal.activeList].items  track by $index" ng-click="">{{item.product}}</li>
+   </ul>     
    <pre><code>{{users.al}}</code></pre>  
+   <pre><code>{{lists.lal}}</code></pre>  
   </div>  
 
   <div ng-controller="SecondCtrl" class="col1"> 
     <p>2nd controller - change active user</p>
+    {{users.al.activeUser}}, {{lists.lal.activeList}}
       <span>
         <select ng-model="active" ng-options="name as name for name in users.al.userList" ng-click="makeActive(active)"></select></span>
        <span>    
@@ -40,15 +46,17 @@
 
   <div ng-controller="ThirdCtrl" class="col1">
   <p>3rd controller - trying to det default to change automatically</p>
-  {{users.al[users.al.activeUser].lists[0]}}<br>
+  {{users.al.activeUser}}, {{lists.lal.activeList}}<br>
     <button ng-click=reset()>reset local storage</button> <br>
-    <button ng-click=setPrettyUsers()>setPrettyUsers</button> <br>
+    <button ng-click="">blank</button> <br>
       <span>
         <select ng-model="defListInfo"  ng-options="shop.shops for shop in users.al[users.al.activeUser].lists" ng-click="makeDefListInfo(defListInfo)"></select></span>
        <span>  
     <ul class="list-group">
       <li class="list-group-item" ng-repeat="list in users.al[users.al.activeUser].lists  track by $index" ng-click="makeDefListInfo(list)">{{list.shops}}</li>
    </ul>   
-   users.al[users.al.activeUser].lists[users.al[users.al.activeUser].defaultList]        
+    <ul class="list-group">
+      <li class="list-group-item" ng-repeat="item in lists.lal[lists.lal.activeList].items  track by $index" ng-click="">{{item.product}}</li>
+   </ul>        
   </div>
 </body>
