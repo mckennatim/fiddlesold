@@ -17,30 +17,10 @@
   <script src="script.js"></script>
 </head>
 <body ng-app="App">
-  <div ng-controller="FirstCtrl" class="col1"> 
-    <p>1st controller - List shops and users</p>
-  {{users.al.activeUser}},  {{lists.lal[lists.lal.activeList].shops}}: {{lists.lal.activeList}}<br>
-    <!-- Single button -->
-    <div class="btn-group btn-group-xs" dropdown is-open="status.isopen">
-      <button type="button" class="btn btn-primary dropdown-toggle" ng-disabled="disabled">
-        Lists <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu" role="menu">
-        <li ng-repeat="list in users.al[users.al.activeUser].lists  track by $index" ng-click="makeDefListInfo(list)"><a href="#">{{list.shops}}</a></li>
-      </ul>
-    </div>  
-    <ul class="list-group">
-      <li class="list-group-item" ng-repeat="list in users.al[users.al.activeUser].lists  track by $index" ng-click="makeDefListInfo(list)">{{list.shops}}</li>
-   </ul>   
-    <ul class="list-group">
-      <li class="list-group-item" ng-repeat="name in users.al.userList  track by $index" ng-click="makeActive(name)">{{name}}</li>
-   </ul>
-    <ul class="list-group">
-      <li class="list-group-item" ng-repeat="item in lists.lal[lists.lal.activeList].items  track by $index" ng-click="">{{item.product}}</li>
-   </ul>     
-   <pre><code>{{users.al}}</code></pre>  
-   <pre><code>{{lists.lal}}</code></pre>  
-  </div>  
+  <sb-zero-drctv></sb-zero-drctv>
+  <sb-user-list-lid></sb-user-list-lid>
+  <sb-first-drctv></sb-first-drctv>  
+
 
   <div ng-controller="SecondCtrl" class="col1"> 
     <p>2nd controller - change active user</p>

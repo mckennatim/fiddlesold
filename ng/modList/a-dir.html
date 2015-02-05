@@ -1,0 +1,15 @@
+
+
+<p>{{cat}} {{dctrl.rat}}</p>
+
+
+    <div class="btn-group btn-group-xs" dropdown is-open="status.isopen">
+      <button type="button" class="btn btn-primary" dropdown-toggle ng-disabled="disabled">
+        Lists <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+  	  <li ng-repeat="list in users[users.activeUser].lists  track by $index" ng-click="dctrl.makeDefListInfo(list)"><a>{{list.shops}}</a></li>
+      </ul>
+    </div>
+
+<sb-list list="list" lid="{{lid}}"upd="dctrl.updd(message)"></sb-list>

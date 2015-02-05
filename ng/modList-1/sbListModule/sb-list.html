@@ -1,0 +1,48 @@
+
+<div class="bkg-list col1" ng-click="update()">
+	<div>
+		{{list.lid}} {{list.shops}}
+    <button ng-click="showList()">show List</button>
+    <button ng-click="refreshLS()">refresh LS</button>
+		<table>
+			<tr>
+				<td style="vertical-align:top" >
+
+    <div class="top-spc" >    
+      <ul class="list group" >
+        <li ng-repeat="item in notdone = (list.items | filter:{done:false}) track by $index" class="list-group-item need">
+          <div class="view" >
+            <input type="checkbox" ng-model="item.done" ng-change="ckDone(item)" >
+            <span class="done-{{item.done}} product" ng-click="editItem(item)" >{{item.product}}</span> 
+            <span ng-show="item.amt.qty > 0" >
+              <span class="amt" >{{item.amt.qty}}  </span>
+              <span class="amt" >{{item.amt.unit}}</span>
+            </span>         
+            <span ng-show="showLoc" class="loc" >{{item.loc}}</span>          
+            <span ng-show="showTags" class="tags" ng-repeat="tag in item.tags">{{tag}} </span>      
+            <i ng-click="remove(item)" class="delx glyphicon glyphicon-remove " ></i>       
+          </div>
+        </li>
+      </ul> 
+    </br>
+    <ul class="list group" >
+      <li ng-repeat="got in done = (list.items | filter:{done:true}) track by $index" class="list-group-item need">
+        <input class="ck-box" type="checkbox" ng-model="got.done"ng-change="ckDone(got)">
+        <span class="done-{{got.done}} product">{{got.product}}</span>
+        <i ng-click="remove(got)" class="pull-right glyphicon glyphicon-remove " ></i>  
+        <!-- <i class="glyphicon glyphicon-chevron-down" ></i>   -->
+      </li>
+    </ul>     		
+				</td>
+                          <td style="vertical-align:top; width:30%;">
+                              {{showlist}}
+                          </td>
+                          <td style="vertical-align:top; width:30%;">
+                              {{showls}}
+                          </td>
+
+			</tr>
+		</table>
+	</div> 
+
+</div>

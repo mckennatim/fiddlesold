@@ -25,7 +25,6 @@ app.controller("AppController", function($scope){
     console.log($scope.currentStore)
 
 
-
     var idxOfObjByPropVal = function(objArr, property, value){
         return objArr.map(function(e){return e[property]}).indexOf(value)
     }
@@ -36,6 +35,8 @@ app.controller("AppController", function($scope){
 
     $scope.theStore={"id" : "s_Bereto","name" : "WholeFoods"};
     //$scope.theStore = $scope.stores[$scope.stores.map(function(e) { return e.name; }).indexOf($scope.theStore.name)];
+
+    console.log($scope.stores[$scope.stores.map(function(e) { return e.name; }).indexOf($scope.theStore.name)]);
     $scope.theStore= defSelect($scope.stores, $scope.theStore, 'name');
     console.log(idxOfObjByPropVal($scope.stores, 'name', $scope.theStore['name'] ));
     console.log($scope.theStore)

@@ -24,8 +24,11 @@
 
 <h2 id="setting-default-select-value-in-angularjs">Setting default select value in AngularJS</h2>
 <h3 id="what-doesnt-work">what doesn`t work</h3>
-<p>It would seem easy to fill in the default value of a select list.</p>
-<pre><code>$scope.stores=  [
+<p>It would seem easy to fill in the default value of a select list. BTW select needs ng-model to work</p>
+<pre><code>
+&lt;select ng-model=&quot;defStore&quot; ng-options=&quot;store.name for store in stores&quot; ng-change=&quot;defOrder(defStore)&quot;&gt;&lt;/select&gt;
+
+$scope.stores=  [
         {&quot;id&quot; : &quot;s_Bereti&quot;,&quot;name&quot; : &quot;Stop&amp;Shop&quot;},
         {&quot;id&quot; : &quot;s_Bereto&quot;,&quot;name&quot; : &quot;WholeFoods&quot;},
         {&quot;id&quot; : &quot;s_Bereta&quot;,&quot;name&quot; : &quot;TraderJoes&quot;}
@@ -34,20 +37,21 @@
 $scope.defStore = {&quot;id&quot; : &quot;s_Bereta&quot;,&quot;name&quot; : &quot;TraderJoes&quot;};
 $scope.defOrder = function(store){
     console.log(store)
-}</code></pre>
+}
+
+</code></pre>
 <p>You would expect the list to come up with ‘TraderJoes’ as default. but it doesn`t even though the model gets updated just fine. Every time the page loads the defualt is blank.</p>
-<p><a href="http://johnmacfarlane.net/pandoc/try/" title="">http://johnmacfarlane.net/pandoc/try/</a></p>
+
 
 <br>
-    This does fill in a default value: <br>
-    <select ng-model="currentStore" ng-options="store.name for store in stores" ng-change="updateOrder(currentStore)"></select><br>
- 
-
 
 <h3 id="what-works">what works</h3>
+    This does fill in a default value: <br>
+    <select ng-model="currentStore" ng-options="store.name for store in stores" ng-change="updateOrder(currentStore)"></select><br>
 <p>Had you chosen the default by picking a member of the stores list you would have been fine.</p>
 <pre><code>This does fill in a default value: &lt;br&gt;
-&lt;select ng-model=&quot;currentStore&quot; ng-options=&quot;store.name for store in stores&quot; ng-change=&quot;updateOrder(currentStore)&quot;&gt;&lt;/select&gt;&lt;br&gt;
+&lt;select ng-model=&quot;defStore&quot; ng-options=&quot;store.name for store in stores&quot; ng-change=&quot;defOrder(defStore)&quot;&gt;&lt;/select&gt;
+
 
 $scope.currentStore = $scope.stores[2];
 console.log($scope.currentStore)</code></pre>

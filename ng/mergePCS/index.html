@@ -1,0 +1,113 @@
+  <meta name="description" content="Sync client and server" />
+  <title>s2g-sync</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js" ></script>
+  <script src="main.js"></script>
+<body ng-app="SyncApp">
+
+<h1 id="syncing-lists-from-multiple-users-using-set-algebra.">Syncing lists from multiple users using set algebra.</h1>
+<h3 id="use-case">use case</h3>
+<p>In an app in which multiple people create and edit the same list, How to sync them together?</p>
+<p>An app needs to be able to function to a certain extent even when not connected to the internet. How do you synchronize with other users who may have changed the list while you were making offline changes?</p>
+<h3 id="setup">setup</h3>
+<p>The app keeps two lists in local storage. One is the Current(C) list which reflects what the app screen shows. The second is the Prior(P) list which reflects the list as it existed after the last update. It has a timestamp.</p>
+<p>The Server(S) has the shared list with its own timestamp.</p>
+<h3 id="update">update</h3>
+<p>Local updates when offline only change the Current list.</p>
+<p>When the app is online it checks with the server. There are two possibilities for state. <br>
+<dt>1. The Server has not changed since the last update (S.timestamp &lt;= P.timestamp) </dt>
+<dd>Update by copying the current list to server and to prior, and update timestamps </dd>
+<dt>2. The Server has changed since the last update (somebody else changed the list)(S.timestamp &gt; P.timestamp) </dt>
+<dd>Synch the lists by merging current, prior and server.</dd></p>
+<h3 id="problem">problem</h3>
+<p>Figure out a slick way to sych, merging the current, prior and server lists. It looks like a set algebra problem. As you can see from the table below… Since the last update the user has added anise and frog legs but has gotten the dog-food. Meanwhile somebody got the apples and the fennel and added diapers fish sticks and gerkins to the list.</p>
+<p>So the updated list should include the things added by the other user, but delete the things the other user got. It should also reflect the things added by the user and delete things they got.</p>
+
+<div ng-controller="SyncCtrl">    
+ <br>
+<table>
+	<caption><b>sync clients with server</b> M=(C\(P\S))U(S\(P\C)) <br>
+	<small>(B\A) = the set of elements in B, but not in A.</small></caption>
+	<thead>
+		<tr>
+			<th width="15" valign="top">P <br>prior on client</th>
+			<th width="15" valign="top">C <br>current on client</th>
+			<th width="15" valign="top">S <br>server updated by other clients </th>
+			<th width="15" valign="top">(P\C) <br>relative complement (P-C) </th>
+			<th width="15" valign="top">(P\S) <br>relative complement (P-S) </th>
+			<th width="15" valign="top">(S\(P\C) <br>relative complement (S-(P-C)) </th>
+			<th width="15" valign="top">(C\(P\S)) <br>relative complement (C-(P-S)</th>
+			<th width="15" valign="top"> (C\(P\S)) U (S\(P\C))<br>union (S-(P-C) U (C-(P-S)</th>
+			<th width="15" valign="top"> combined <br>union: done true and false</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><ul id="thePList">
+			    <li ng-repeat="pi in p2">{{pi.product}} </li>
+			</ul></td>			
+			<td><ul id="theCList">
+			    <li ng-repeat="ci in c2">{{ci.product}} </li>
+			</ul></td>			
+			<td><ul id="theSList">
+			    <li ng-repeat="si in s2">{{si.product}} </li>
+			</ul></td>			
+			<td><ul id="thePCList">
+			    <li ng-repeat="pci in pc">{{pci.product}} </li>
+			</ul></td>			
+			<td><ul id="thePSList">
+			    <li ng-repeat="psi in ps">{{psi.product}} </li>
+			</ul></td>			
+			<td><ul id="theSPCList">
+			    <li ng-repeat="spci in spc">{{spci.product}} </li>
+			</ul></td>			
+			<td><ul id="theCPSList">
+			    <li ng-repeat="cpsi in cps">{{cpsi.product}} </li>
+			</ul></td>					
+			<td><ul id="theMO2List">
+			    <li ng-repeat="mo2i in mo2">{{mo2i.product}} </li>
+			</ul></td>
+			<td><ul id="theCombinedList">
+			    <li ng-repeat="comi in com">{{comi.product}} {{comi.done}} </li>
+			</ul></td>
+		</tr>
+	</tbody>
+</table>
+
+<h3 id="solution">solution</h3>
+<p>In short: the merged list M=(C\(P\S))U(S\(P\C))  where <br> Pis the relative complement of P in C<br> P= items contained in P that are not in C</p>
+<pre><code>    difference: function(array){
+        // difference(op,s2, &#39;product&#39;
+        var prop =arguments[2];//product
+        var rest = arguments[1];//s2
+        var containsEquals = function(obj, target) {
+            // used on each value of the array being filtered(op), 
+            // compares product name to each element in obj(s2)
+            if (obj == null) return false;
+            return _.any(obj, function(value) {
+                return value[prop] === target[prop];
+            });
+        };
+        // filter with the containsEquals function
+        // include only those array(op) elements not in the rest(s2) array
+        return _.filter(array, function(value){
+            return ! containsEquals(rest, value); 
+        });
+    },</code></pre>
+<p>First I took the current list and just kept operating on them with union, intersection, and relative complement operations until I got to the merge list I was after. Then I took that page of relations and intersecting circles and reduced them using set algebra rules.</p>
+
+<h4>refs</h4>
+<a href="http://www.cs.umd.edu/class/fall2005/cmsc250/exam/ex1/node5.html">http://www.cs.umd.edu/class/fall2005/cmsc250/exam/ex1/node5.html</a><br>
+<a href="http://en.wikipedia.org/wiki/Complement_(set_theory)#Relative_complement">http://en.wikipedia.org/wiki/Complement_(set_theory)#Relative_complement</a><br>
+<a href="http://stackoverflow.com/questions/18383636/compare-2-arrays-of-objects-with-underscore-to-find-the-differnce">http://stackoverflow.com/questions/18383636/compare-2-arrays-of-objects-with-underscore-to-find-the-differnce by Jonathan Naguin</a><br>
+<a href="http://stackoverflow.com/questions/7146217/merge-2-arrays-of-objects">http://stackoverflow.com/questions/7146217/merge-2-arrays-of-objects by Guya</a>
+
+<pre>
+{{op}} <br>
+{{c2}} <br> 
+{{s2}} <br> 
+
+{{jmo2}}  	
+</pre>
+</div>
+</body>

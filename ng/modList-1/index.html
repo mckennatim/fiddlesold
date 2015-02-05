@@ -1,7 +1,7 @@
 <!doctype html>
 <head>
   <meta name="description" content="blank description" />
-  <title>ng-blank</title>  
+  <title>ng-module</title>  
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0 ">
@@ -14,16 +14,12 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.0/ui-bootstrap-tpls.min.js"></script>
-  <script src="script.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.2.1.js"></script>  
+<script src="script.js"></script>
+<script src="aModule.js"></script>
+<script src="sbListModule/sb-list.js"></script>
+
 </head>
 <body ng-app="App">
-  <div ng-controller="AppController">    
-  <h3>Uli rules</h3>
-  First repeated number of {{numbers}} is  {{firstRepNum}} 
-  <ul id="theList">
-      <li ng-repeat="number in numbers track by $index"
-      	ng-controller="ItemCtrl">
-      {{number}}  {{yo}}</li>
-  </ul>
-  </div>
+  <ui-view></ui-view>
 </body>

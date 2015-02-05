@@ -11,9 +11,9 @@
 	<small>(B\A) = the set of elements in B, but not in A.</small></caption>
 	<thead>
 		<tr>
-			<th width="15" valign="top">P <br>prior on client</th>
-			<th width="15" valign="top">C <br>current on client</th>
-			<th width="15" valign="top">S <br>server updated by other clients </th>
+			<th width="15" valign="top">P <br>prior on client {{ftimest[1]}}</th>
+			<th width="15" valign="top">C <br>current on client  {{ftimest[0]}}</th>
+			<th width="15" valign="top">S <br>server updated by other clients  {{ftimest[2]}}</th>
 			<th width="15" valign="top">(P\C) <br>relative complement (P-C) </th>
 			<th width="15" valign="top">(P\S) <br>relative complement (P-S) </th>
 			<th width="15" valign="top">(S\(P\C) <br>relative complement (S-(P-C)) </th>
@@ -25,14 +25,20 @@
 	<tbody>
 		<tr>
 			<td><ul id="thePList">
-			    <li ng-repeat="pi in p2">{{pi.product}} </li>
-			</ul></td>			
+			    <b><li ng-repeat="pi in p2">{{pi.product}} </li></b>
+			</ul>
+			<ul><li ng-repeat="pit in p2t">{{pit.product}} </li></ul>
+			</td>			
 			<td><ul id="theCList">
-			    <li ng-repeat="ci in c2">{{ci.product}} </li>
-			</ul></td>			
+			    <b><li ng-repeat="ci in c2">{{ci.product}} </li></b>
+			</ul>
+			<ul><li ng-repeat="cit in c2t">{{cit.product}} </li></ul>
+			</td>			
 			<td><ul id="theSList">
-			    <li ng-repeat="si in s2">{{si.product}} </li>
-			</ul></td>			
+			    <b><li ng-repeat="si in s2">{{si.product}} </li></b>
+			</ul>
+			<ul><li ng-repeat="sit in s2t">{{sit.product}} </li></ul>
+			</td>			
 			<td><ul id="thePCList">
 			    <li ng-repeat="pci in pc">{{pci.product}} </li>
 			</ul></td>			
@@ -49,16 +55,16 @@
 			    <li ng-repeat="mo2i in mo2">{{mo2i.product}} </li>
 			</ul></td>
 			<td><ul id="theCombinedList">
-			    <li ng-repeat="comi in com">{{comi.product}} {{comi.done}} </li>
-			</ul></td>
+				<b><li ng-repeat="comfi in comf">{{comfi.product}} </li></b>
+			</ul><ul>	
+			    <li ng-repeat="comti in comt">{{comti.product}}  </li>
+			</ul><ul>	
+<!-- 			    <li ng-repeat="sortComi in sortCom">{{sortComi.product}} {{sortComi.done}}  </li>
+			</ul></td> -->
 		</tr>
 	</tbody>
 </table>
 <pre>
-{{op}} <br>
-{{c2}} <br> 
-{{s2}} <br> 
-
 {{jmo2}}  	
 </pre>
 
@@ -68,6 +74,7 @@
 <a href="http://en.wikipedia.org/wiki/Complement_(set_theory)#Relative_complement">http://en.wikipedia.org/wiki/Complement_(set_theory)#Relative_complement</a><br>
 <a href="http://stackoverflow.com/questions/18383636/compare-2-arrays-of-objects-with-underscore-to-find-the-differnce">http://stackoverflow.com/questions/18383636/compare-2-arrays-of-objects-with-underscore-to-find-the-differnce by Jonathan Naguin</a><br>
 <a href="http://stackoverflow.com/questions/7146217/merge-2-arrays-of-objects">http://stackoverflow.com/questions/7146217/merge-2-arrays-of-objects by Guya</a>
-
+<h4>mongo queries</h4>
+db.lists.find({lid:'Jutebi'},{items:1}).pretty()
 </div>
 </body>

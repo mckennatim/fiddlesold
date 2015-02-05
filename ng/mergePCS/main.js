@@ -14,7 +14,7 @@ app.controller("SyncCtrl", function($scope, SyncService){
     var s2 = $scope.s2 = SyncService.s2() ;
     var p2 = $scope.p2 = SyncService.p2() ;
     var p = $scope.p = SyncService.p() ;
-    var m = $scope.m = SyncService.merge(p,c,s);
+    //var m = $scope.m = SyncService.merge(p,c,s);
     //console.log(m)
     var oc = $scope.oc = SyncService.a2o(c)
     var os = $scope.os = SyncService.a2o(s)
@@ -113,14 +113,19 @@ app.factory("SyncService", function(){
             return obj
         },
         difference: function(array){
-            var prop =arguments[2];
-            var rest = Array.prototype.concat.apply(Array.prototype, Array.prototype.slice.call(arguments, 1));
+            // difference(op,s2, 'product'
+            var prop =arguments[2];//product
+            var rest = arguments[1];//s2
             var containsEquals = function(obj, target) {
+                // used on each value of the array being filtered(op), 
+                // compares product name to each element in obj(s2)
                 if (obj == null) return false;
                 return _.any(obj, function(value) {
                     return value[prop] === target[prop];
                 });
             };
+            // filter with the containsEquals function
+            // include only those array(op) elements not in the rest(s2) array
             return _.filter(array, function(value){
                 return ! containsEquals(rest, value); 
             });

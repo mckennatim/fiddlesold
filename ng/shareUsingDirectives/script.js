@@ -1,15 +1,40 @@
 var app = angular.module("App", ['ui.bootstrap']);
 
-app.controller("FirstCtrl", function($scope, Users, Lists){
-    $scope.lists = Lists;
-    $scope.users = Users;
-    $scope.makeActive=function(name){
-        Users.makeActive(name);
+app.directive("sbFirstDrctv", ['Users', 'Lists', function(Users, Lists){
+    return{
+      restrict: 'E',
+      templateUrl: "sb-first-drctv.html",
+      link: function(scope, element, attrs){
+        scope.lists = Lists;
+        scope.users=Users;
+        scope.makeActive=function(name){
+            Users.makeActive(name);
+        }
+        scope.makeDefListInfo =function(def){
+            Users.makeDefLid(def.lid);
+        }         
+      }
     }
-    $scope.makeDefListInfo =function(def){
-        Users.makeDefLid(def.lid);
-    }
-});
+}]);
+
+app.directive('sbUserListLid', ['Users','Lists', function(Users,Lists){
+  return{
+    restrict:'E',
+    templateUrl: 'sb-user-list-lid.html',
+    link: function(scope, element, attrs){
+      scope.lal = Lists.lal;
+      scope.al=Users.al;      
+    }  
+  }
+}]);
+
+app.directive('sbZeroDrctv', function(){
+  return{
+    restrict: 'E',
+    //template: 'hi, im inline template a directive </br></br'
+    templateUrl: 'sb-zero-drctv.html'
+  }
+})
 
 app.controller("SecondCtrl", function($scope, Users, Lists){    
     $scope.lists = Lists;
