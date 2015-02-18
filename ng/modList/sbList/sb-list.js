@@ -138,7 +138,7 @@ sbList.directive('sbList',[ '$state', '$filter', 'ioService', 'Stores', function
 sbList.service("ioService", function($q, $timeout) {  
 	console.log('the ioservice has started')
 	var port = 3000;    
-	var socket = io.connect('10.0.1.25:' + port);
+	var socket = io.connect('localhost:' + port);
 	console.log('connected in ioService')
 	var service = {
 		dog: 'fred',
