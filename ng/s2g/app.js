@@ -1,3 +1,8 @@
+'use strict';
+//var httpLoc = 'http://parleyvale.com:3000/api/';
+var httpLoc = 'http://localhost:3000/api/';
+//var httpLoc = 'http://sitebuilt.net:3000/api/';
+
 var app = angular.module("App", [
     'ui.bootstrap',
     'ui.router',
@@ -9,8 +14,15 @@ var app = angular.module("App", [
     'Lists', 
     'Other',
     'Stores',
-    's2gUsers'
+    's2gUsers',
+    'Register'
     ]);
+
+app.constant('cfg', {
+    serverUrl: 'http://localhost:3000/api/',
+    // 'http://parleyvale.com:3000/api/'  'http://sitebuilt.net:3000/api/'
+    LSpre: 's2g_'
+})
 
 app.config(['$urlRouterProvider', '$stateProvider', function($urlRouterProvider, $stateProvider){
     $stateProvider.state('list', {
@@ -22,19 +34,15 @@ app.config(['$urlRouterProvider', '$stateProvider', function($urlRouterProvider,
         url: '/users', 
         templateUrl: 'users.html', 
     });    
-    $stateProvider.state('register',{
-        url:'/register',
-        template: '<h1>Register</h1>'
-    })
     $urlRouterProvider.otherwise('/register');    
 }])
 
 app.controller('ListCtrl', ['$stateParams', '$state', 'TokenService', 'Lists', function($stateParams, $state, TokenService, Lists){
-    if (TokenService.tokenExists()){
+    var activeUser = JSON.parse(localStorage.getItem('s2g_users')).activeUser
+    if (TokenService.tokenExists(activeUser)){
         this.dog = 'Kazzy'
         this.lid = $stateParams.lid; 
         this.list = Lists.lal[this.lid];
-        console.log(this.list.timestamp)
         this.upd = function(message){
             Lists.saveLocal(this.lid)
             console.log(message)

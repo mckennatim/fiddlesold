@@ -7,7 +7,7 @@ Lists.factory('Lists',  ['$http', function($http){
 		cat: 'mabibi',
 		lal:lal,    
 		saveLocal: function(lid){
-			lal[lid].timestamp = Date.now();
+			//lal[lid].timestamp = Date.now();
 			localStorage.setItem('s2g_clists', JSON.stringify(lal));
 		}
 	}

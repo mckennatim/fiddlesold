@@ -47,8 +47,16 @@ s2gList.directive('s2gList',[ '$filter', 'ioService', function( $filter, ioServi
 			}
 			var rep4idx = function(idx,item){
 				scope.list.items[idx]=item
+			}
+			var tstampIt = function(message){
+				var ts = Date.now();
+				message.timestamp=ts;
+				scope.list.timestamp = ts;
+				console.log(ts)
+				return message
 			}			
 			io.on('itemChanged', function(data){
+				scope.list.timestamp = data.timestamp;
 				console.log(data.action +  '; ' + data.oldProduct + ' with:');
 				console.log(data.item);
 				switch (data.action){
@@ -71,12 +79,14 @@ s2gList.directive('s2gList',[ '$filter', 'ioService', function( $filter, ioServi
 			})
 			scope.ckDone = function(item){
 				var message = {action:'modify', item:item}
+				message = tstampIt(message);
 				console.log(message.item)
 				io.emit('message', message)
 				scope.upd({message:'from local ckUpd'})
 			}
 			scope.remove= function(item){
 				var message = {action:'delete', item:item}
+				message = tstampIt(message);
 				del(message.item)
 				console.log(message.item)
 				io.emit('message', message)
@@ -88,6 +98,7 @@ s2gList.directive('s2gList',[ '$filter', 'ioService', function( $filter, ioServi
 					item={product: this.query, done:false};
 					ad(item)				
 					var message = {action:'add', item:item}
+					message = tstampIt(message);
 					console.log(message.item)
 					io.emit('message', message)
 					scope.upd({message:'from local ad'})
@@ -122,6 +133,7 @@ s2gList.directive('s2gList',[ '$filter', 'ioService', function( $filter, ioServi
 				}
 				console.log(scope.editedItem)
 				var message={action:'replace', item:scope.editedItem, oldProduct:oldProduct}
+				message = tstampIt(message);
 				console.log(message.item)
 				io.emit('message', message)
 				scope.upd({message:'from local doneEditng'})				
