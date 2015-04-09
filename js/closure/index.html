@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <link rel="stylesheet" href="">
+</head>
+<script type="text/javascript">
+function sayHello2(name) {
+	var text = 'Hello ' + name; // local variable
+	var sayAlert = function() {
+		console.log(text);
+	}
+	return sayAlert;
+}
+
+var say2 = sayHello2('fred')
+
+say2();
+</script>
+
+<body>
+  <h1>hello</h1>
+  <p class="items">a</p>
+  <p class="items">b</p>
+  <p class="items">c</p>
+  <p class="items">d</p>
+  <p class="items">e</p>
+  <p class="items">f</p>
+
+  <script>
+  var items = document.querySelectorAll('.items');
+  for (var i = 0, max = items.length; i < max; i++) {
+  	var element = items[i];
+  	element.addEventListener('click', (function(i) {
+  		return function() {
+  			console.log('you clicked on element number ' + i);
+  		};
+  	}(i)));
+  }
+
+  var globalVar = "xyz";
+
+(function outerFunc(outerArg) {
+  var outerVar = 'a';
+  
+  (function innerFunc(innerArg) {
+    var innerVar = 'b';
+    
+    console.log(
+      "outerArg = " + outerArg + "\n" +
+      "innerArg = " + innerArg + "\n" +
+      "outerVar = " + outerVar + "\n" +
+      "innerVar = " + innerVar + "\n" +
+      "globalVar = " + globalVar);
+    
+  })(456);
+})(123);
+
+var arr1 = "john".split('');
+var arr2 = arr1.reverse();
+var arr3 = "jones".split('');
+arr2.push(arr3);
+console.log("array 1: length=" + arr1.length + " last=" + arr1.slice(-1));
+console.log("array 2: length=" + arr2.length + " last=" + arr2.slice(-1));
+
+for (var i = 0; i < 5; i++) {
+  setTimeout(function() { console.log(i); }, i * 1000 );
+}//all 5s
+
+
+
+  </script>
+</body>
+
+</html>

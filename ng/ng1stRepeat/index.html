@@ -1,7 +1,8 @@
   <meta name="description" content="Angular Find 1st Dup" />
   <title>ng-blank</title>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js"></script>
-  <script src="main.js"></script>
+  <script src="https://code.jquery.com/jquery-2.1.3.min.js" ></script>
+  
 <body ng-app="DuplicateApp">
 <div ng-controller="DuplicateController">    
 First repeated number of {{numbers}} is  {{firstRepNum}} 
@@ -10,5 +11,19 @@ First repeated number of {{numbers}} is  {{firstRepNum}}
     	ng-controller="ItemCtrl">
     {{number}}  {{yo}}</li>
 </ul>
+
+<ol id="list">
+  <li>6</li>
+  <li>3</li>
+  <li>1</li>
+  <li>4</li>
+  <li>7</li>
+  <li>4</li>
+  <li>2</li>
+  <li>8</li>
+  <li>9</li>
+  <li>2</li>
+</ol>
 </div>
+<script src="main.js"></script>
 </body>

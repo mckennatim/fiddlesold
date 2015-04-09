@@ -1,0 +1,6 @@
+    <div class="btn-group btn-group-xs" dropdown is-open="status.isopen">
+      <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled"ng-click="sort()">{{sortBy}} <span class="caret"></span></button>
+      <ul class="dropdown-menu" role="menu">
+        <li ng-repeat="store in list.stores  track by $index" ng-click="orderByStore(store)"><a >{{store.name}}</a></li>
+      </ul>
+    </div>	

@@ -36,7 +36,7 @@
 			<input class="submit" type="submit" id="submit2" value="Add" />
 		</form>    
 		<ul class="list group" >
-			<li ng-repeat="got in done = (list.items | filter:{done:true} | filter:query) track by $index" class="list-group-item need">
+			<li ng-repeat="got in done = (list.items | filter:{done:true}) track by $index" class="list-group-item need">
 				<input class="ck-box" type="checkbox" ng-model="got.done"ng-change="ckDone(got)">
 				<span class="done-{{got.done}} product">{{got.product}}</span>
 				<i ng-click="remove(got)" class="pull-right glyphicon glyphicon-remove " ></i>  

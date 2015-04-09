@@ -1,6 +1,6 @@
-var sbList = angular.module('sbList', []);
+var s2gList = angular.module('s2gList', []);
 
-sbList.directive('sbList',[ '$state', '$filter', 'ioService', 'Stores', function( $state, $filter, ioService, Stores){
+s2gList.directive('s2gList',[ '$state', '$filter', 'ioService', 'Stores', function( $state, $filter, ioService, Stores){
 	return{
 		restrict: 'E',
 		scope: {
@@ -8,7 +8,7 @@ sbList.directive('sbList',[ '$state', '$filter', 'ioService', 'Stores', function
        		upd: "&",
        		lid: "@"
        	}, //isolates scope
-		templateUrl: "sbList/sb-list.html",
+		templateUrl: "s2gList/s2g-list.html",
 		link: function(scope, element, attrs) {
 			var io = ioService.socket
 			scope.showLoc=true;
@@ -37,23 +37,13 @@ sbList.directive('sbList',[ '$state', '$filter', 'ioService', 'Stores', function
 			}
 			var ad = function(item){
 				if (scope.list){
-					var idx = find(item.product);
-					if(idx == -1){
-						scope.list.items.push(item);
-					}else{
-						var found = scope.list.items[idx]
-						found.done = false;
-						scope.list.items[idx] = found;
-					}
+					scope.list.items.push(item);
 				}else{
 					console.log('there is no list on this machine')
 				}				
 			}			
 			var find = function(product){
-				product = product.toLowerCase();
-				return scope.list.items.map(function (el){
-					return el.product.toLowerCase()
-				}).indexOf(product)
+				return scope.list.items.map(function (el){return el.product}).indexOf(product)
 			}
 			var rep4idx = function(idx,item){
 				scope.list.items[idx]=item
@@ -145,7 +135,7 @@ sbList.directive('sbList',[ '$state', '$filter', 'ioService', 'Stores', function
 	}
 }])
 
-sbList.service("ioService", function($q, $timeout) {  
+s2gList.service("ioService", function($q, $timeout) {  
 	console.log('the ioservice has started')
 	var port = 3000;    
 	var socket = io.connect('localhost:' + port);
