@@ -8,15 +8,26 @@
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css"> 
   <link rel="stylesheet" href="style.css"> 
+  <link rel="stylesheet" href="modules/sbMd/sb-md.css"> 
   <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.9/angular.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.0-rc.0/angular.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.0/ui-bootstrap-tpls.min.js"></script>
-  <script src="script.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
+  <script src="app.js"></script>
+  <script src="modules/sbMd/sbMd.js"></script>
 </head>
 <body ng-app="App">
+  <sb-md>
+### Define a list below
+    
++ Get milk
++ Buy food
+    
+This is paragraph text with some **bold** or some _italics_ how about _**both**_ ?
+  </sb-md>
   <div ng-controller="AppController">    
   <h3>Uli rules</h3>
   First repeated number of {{numbers}} is  {{firstRepNum}} 

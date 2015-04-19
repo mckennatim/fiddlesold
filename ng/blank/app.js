@@ -1,7 +1,9 @@
 /*
 
 */
-var app = angular.module("App", []);
+var app = angular.module("App", [
+    'sbMd'
+    ]);
 
 app.controller("AppController", function($scope){
     $scope.dog="fred";

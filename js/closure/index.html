@@ -2,10 +2,10 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title></title>
-  <link rel="stylesheet" href="">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
 </head>
 <script type="text/javascript">
 function sayHello2(name) {
@@ -22,57 +22,133 @@ say2();
 </script>
 
 <body>
-  <h1>hello</h1>
-  <p class="items">a</p>
-  <p class="items">b</p>
-  <p class="items">c</p>
-  <p class="items">d</p>
-  <p class="items">e</p>
-  <p class="items">f</p>
+	<h1>hello</h1>
+	<p class="items">a</p>
+	<p class="items">b</p>
+	<p class="items">c</p>
+	<p class="items">d</p>
+	<p class="items">e</p>
+	<p class="items">f</p>
 
-  <script>
-  var items = document.querySelectorAll('.items');
-  for (var i = 0, max = items.length; i < max; i++) {
-  	var element = items[i];
-  	element.addEventListener('click', (function(i) {
-  		return function() {
-  			console.log('you clicked on element number ' + i);
-  		};
-  	}(i)));
-  }
-
-  var globalVar = "xyz";
-
+	<script>
+	var items = document.querySelectorAll('.items');
+	for (var i = 0, max = items.length; i < max; i++) {
+		var element = items[i];
+		element.addEventListener('click', (function(i) {
+			return function() {
+				console.log('you clicked on element number ' + i);
+			};
+		}(i)));
+	}
+var globalVar = "xyz";
+console.log('closure - two ways of calling functions');
+console.log('directly');
 (function outerFunc(outerArg) {
-  var outerVar = 'a';
-  
-  (function innerFunc(innerArg) {
-    var innerVar = 'b';
-    
-    console.log(
-      "outerArg = " + outerArg + "\n" +
-      "innerArg = " + innerArg + "\n" +
-      "outerVar = " + outerVar + "\n" +
-      "innerVar = " + innerVar + "\n" +
-      "globalVar = " + globalVar);
-    
-  })(456);
+	var outerVar = 'a';
+	(function innerFunc(innerArg) {
+		var innerVar = 'b';
+		console.log(
+			"outerArg = " + outerArg + "\n" +
+			"innerArg = " + innerArg + "\n" +
+			"outerVar = " + outerVar + "\n" +
+			"innerVar = " + innerVar + "\n" +
+			"globalVar = " + globalVar);
+	})(456);
 })(123);
+console.log('normal')
+function outerFunc2(outerArg) {
+	var outerVar = 'a';	
+	function innerFunc2(innerArg) {
+		var innerVar = 'b';
+		console.log(
+			"outerArg = " + outerArg + "\n" +
+			"innerArg = " + innerArg + "\n" +
+			"outerVar = " + outerVar + "\n" +
+			"innerVar = " + innerVar + "\n" +
+			"globalVar = " + globalVar);
+	};
+	innerFunc2(456);
+};
+outerFunc2(123)
+console.log('3 ways to do cloosure')
+console.log('closure by returning a function')
+function outerFunc3(outerArg) {
+	var outerVar = 'a';
+	function innerFunc3(innerArg) {
+		var innerVar = 'b';
+		console.log(
+			"outerArg = " + outerArg + "\n" +
+			"innerArg = " + innerArg + "\n" +
+			"outerVar = " + outerVar + "\n" +
+			"innerVar = " + innerVar + "\n" +
+			"globalVar = " + globalVar);
+	};
+	return innerFunc3;
+};
+var f = outerFunc3(123)
+f(456)
+console.log('closure by assigning  function to global var');
+//var r
+function outerFunc4(outerArg) {
+	var outerVar = 'a';
+	this.r =function innerFunc4(innerArg) {
+		var innerVar = 'b';
+		console.log(
+			"outerArg = " + outerArg + "\n" +
+			"innerArg = " + innerArg + "\n" +
+			"outerVar = " + outerVar + "\n" +
+			"innerVar = " + innerVar + "\n" +
+			"globalVar = " + globalVar);
+	};
+};
+var f = outerFunc4(123)
+r(456)
+console.log('incorporate in a long lived object')
+function outerFunc5(outerArg) {
+	var outerVar = 'a';
+	var innerArg = '456'
+	setTimeout(function(){
+		var innerVar = 'b';
+		outerArg = outerArg+'xx'
+		console.log(
+			"outerArg = " + outerArg + "\n" +
+			"innerArg = " + innerArg + "\n" +
+			"outerVar = " + outerVar + "\n" +
+			"innerVar = " + innerVar + "\n" +
+			"globalVar = " + globalVar);
+	}, 10)
+};
+outerFunc5(123)
 
 var arr1 = "john".split('');
+console.log(arr1)
 var arr2 = arr1.reverse();
+console.log(arr1)
+console.log('arr1.reverse changes arr1')
+console.log(arr2)
 var arr3 = "jones".split('');
+console.log(arr3)
 arr2.push(arr3);
+console.log(arr2[4])
+console.log(arr1)
 console.log("array 1: length=" + arr1.length + " last=" + arr1.slice(-1));
 console.log("array 2: length=" + arr2.length + " last=" + arr2.slice(-1));
 
 for (var i = 0; i < 5; i++) {
-  setTimeout(function() { console.log(i); }, i * 1000 );
+	setTimeout(function(x) {
+	 	return function(){
+	 		console.log(x); 
+	 	};
+	 }(i), i * 1000 );
+}//1,2,3,4,5
+for (var i = 0; i < 5; i++) {
+	setTimeout(function() {
+	 	//console.log(i); 
+	 }, i * 1000 );
 }//all 5s
+//result interleaved 051525354555
 
-
-
-  </script>
+	</script>
 </body>
 
 </html>

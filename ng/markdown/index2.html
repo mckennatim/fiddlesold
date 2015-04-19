@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+<!-- 	<link rel="stylesheet" href="//cdn.jsdelivr.net/foundation/4.1.2/css/foundation.min.css" />  -->
+	<style>
+	pre {
+	    background-color: #F8F8F8;
+	border: 1px solid #DDD;
+	font-size: 13px;
+	line-height: 19px;
+	overflow: auto;
+	padding: 6px 10px;
+	border-radius: 3px
+	}
+	code {
+	    color:#000;
+	}
+	li {
+	    list-style-type: disc;
+	    list-style-position: inside;
+	    padding: 0 12px;
+	}
+	</style>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-rc.0/angular.min.js"></script> 
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
+	<script>
+var app = angular.module('myApp', []);
+
+app.directive('sbMd', function () {
+    var converter = new Showdown.converter();
+    return {
+        restrict: 'E',
+        link: function (scope, element, attrs) {
+            var htmlText = converter.makeHtml(element.text());
+            element.html(htmlText);
+        }
+    };
+
+});
+	</script>
+</head>
+<body>
+<div ng-app="myApp" >
+<sb-md>
+# Hello There
+This is [an example](http://example.com/ "I'm the title") of an inline link.
+    
+### Define a list below
+    
++ Get milk
++ Buy food
+    
+This is paragraph text with some **bold** or some _italics_ how about _**both**_ ?
+
+**Code** block below:
+    
+    function hello() { 
+      alert('Hello world!'); 
+    }
+   </sb-md>
+</div>	
+</body>
+</html>
+
+

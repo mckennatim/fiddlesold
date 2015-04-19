@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>blank</title>
+	<link rel="stylesheet" href="">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css"> 
+  <link rel="stylesheet" href="style.css"> 
+  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.0-rc.0/angular.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.0/ui-bootstrap-tpls.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
+  <script src="app.js"></script>
+</head>
+<body ng-app="App">
+<sb-md  mdfile="README.md"></sb-md>
+<div>
+	max value of the array <input value="[6,4,7,9,3,3]"/ onChange=getMax()><br>
+	is <span id="max"></span>
+</div>
+
+<script>
+	var ars = document.getElementsByTagName("input")
+	var arm = document.getElementById("max")
+	console.log(arm)
+	console.log(ars[0].value)
+	var txt =ars[0].value;
+	var txta = txt.slice(1,-1).split(',')
+	console.log(txta)	
+	var b =''
+	for(var i=0; i<txta.length;i++){
+		console.log(txta[i])
+		if (txta[i]>b){b=txta[i];}
+	}
+	arm.innerHTML = b;
+	console.log(Math.max.apply(Math,txta.map(function(e){return e;})))
+	console.log(Math.max.apply(Math,txta))
+	console.log(txta.map(function(e){return e;}))
+	function getMax(){
+		console.log('in get max')
+		var inp = document.getElementsByTagName("input")[0].value.slice(1,-1).split(',')
+		arm.innerHTML = Math.max.apply(Math,inp)
+		console.log(inp)
+	}
+</script>
+<sb-md>
+#### code explanation
+	
+	var arm = document.getElementById("max")
+	function getMax(){
+		console.log('in get max')
+		var inp = document.getElementsByTagName("input")[0].value.slice(1,-1).split(',')
+		arm.innerHTML = Math.max.apply(null,inp)
+		console.log(inp)
+	}
+
+* getElement(s) returns an array
+* slice and split removes the brackets and puts comma delimits into array
+* apply turns an array parameters for the Math.max function (nul is contex???)
+		
+			Math.max.apply(null,["6", "4", "7", "9", "3", "3"])
+
+	is the same as
+
+			Math.max("6", "4", "7", "9", "3", "3")
+
+
+
+</sb-md>	
+</body>
+</html>
